@@ -56,8 +56,7 @@ public class JoglBase extends GLCanvas implements GLEventListener {
             
             panel1.add(canvas);
             frame.getContentPane().add(panel1);
-            frame.getContentPane().add(panel2);
-            frame.addKeyListener((KeyListener)canvas);
+            frame.getContentPane().add(panel2);            
             frame.addWindowListener(new WindowAdapter() {
                @Override
                public void windowClosing(WindowEvent e) {
