@@ -154,6 +154,19 @@ public class JoglBase extends GLCanvas implements GLEventListener {
 
         
         // Aqui inicia el dibujo de objetos
+
+        gl.glBegin(GL_TRIANGLES); // draw using triangles
+           gl.glColor3f(1.0f,0,0);
+           
+           gl.glVertex3f(0, 0, 0);
+           
+           gl.glVertex3f(1, 1,0);                 
+           
+           gl.glVertex3f(2,0, 0);
+           
+        gl.glEnd();
+
+        
       
         gl.glFlush();
       
@@ -163,35 +176,35 @@ public class JoglBase extends GLCanvas implements GLEventListener {
 
         gl.glBegin(GL2.GL_QUADS);
         // Front Face
-        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Left
-        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right
-        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right
-        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Left
+        gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Left
+        gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right
+        gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right
+        gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Left
         // Back Face
-        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Right
-        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Right
-        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Left
-        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Left
+        gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Right
+        gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Right
+        gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Left
+        gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Left
         // Top Face
-        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left
-        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Bottom Left
-        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right
-        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right
+        gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left
+        gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Bottom Left
+        gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right
+        gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right
         // Bottom Face
-        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Top Right
-        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Top Left
-        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left
-        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right
+        gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Top Right
+        gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Top Left
+        gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left
+        gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right
         // Right face
-        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Right
-        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right
-        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Left
-        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left
+        gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Right
+        gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right
+        gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Left
+        gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left
         // Left Face
-        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Left
-        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right
-        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Right
-        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left
+        gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Left
+        gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right
+        gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Right
+        gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left
         gl.glEnd();
     }
    
