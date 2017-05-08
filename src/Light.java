@@ -1,20 +1,40 @@
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;        
 import com.jogamp.opengl.GL;
+import static com.jogamp.opengl.GL.GL_LINES;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.awt.GLCanvas;
+import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
+import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
+import com.jogamp.opengl.util.FPSAnimator;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-class Light {
+class Light extends GLCanvas implements GLEventListener {
 
+   private static String TITLE = "Aplicacion de iluminacion";  // window's title
+   private static final int CANVAS_WIDTH = 640;  // width of the drawable
+   private static final int CANVAS_HEIGHT = 480; // height of the drawable
+   private static final int FPS = 60; // animator's target frames per second
+   private static final float factInc = 5.0f; // animator's target frames per second
+   private float fovy = 45.0f;    
+    
   //////////////// Variables /////////////////////////
 
-  // Light position.
+  // Posicion de la luz.
   float lightX=1f;
   float lightY=1f;
   float lightZ=1f;
   float dLight=0.05f;
 
-  // Material and light from the red book.
+  // Material y luces.
   final float ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
   final float position[] = { 0.0f, 0.0f, 1.0f, 1.0f };
   final float mat_diffuse[] = { 0.6f, 0.6f, 0.6f, 1.0f };
@@ -34,19 +54,25 @@ class Light {
 
   ///////////////// Funciones /////////////////////////
 
-  public Light() {}
+  public Light() {
+    this.addGLEventListener(this);
+  }
 
  /////////////// Define Luz y Material /////////
 
+  private GLU glu;  // para las herramientas GL (GL Utilities)
+  private GLUT glut;
+  
   public void init( GLAutoDrawable drawable )
     {
       GL2 gl = drawable.getGL().getGL2();
       // Establece un material por default.
       setSomeWhiteMaterial( gl, GL.GL_FRONT_AND_BACK );
 
+            
       // Alguna luz de ambiente global.
       //float lmodel_ambient[] = { 0.3f, 0.3f, 0.3f, 1.0f };
-      float lmodel_ambient[] = { 0f, 0f, 0f, 1.0f };
+      float lmodel_ambient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
       gl.glLightModelfv( GL2.GL_LIGHT_MODEL_AMBIENT, 
 			 lmodel_ambient, 0 );
@@ -61,23 +87,24 @@ class Light {
       
       // First Switch the lights on.
       gl.glEnable( GL2.GL_LIGHTING );
-      //gl.glDisable( GL.GL_LIGHTING );
-      //gl.glEnsable( GL.GL_LIGHT0 );
-      //gl.glEnable( GL.GL_LIGHT1 );
-      //gl.glEnable( GL.GL_LIGHT2 );
-      gl.glEnable( GL2.GL_LIGHT3 ); 
-      //gl.glEnable( GL.GL_LIGHT4 ); // Posicional en Origen
+      //gl.glDisable( GL2.GL_LIGHTING );
+      gl.glEnable( GL2.GL_LIGHT0 );
+      //gl.glEnable( GL2.GL_LIGHT1 );
+      //gl.glEnable( GL2.GL_LIGHT2 );
+      //gl.glEnable( GL2.GL_LIGHT3 ); 
+      //gl.glEnable( GL2.GL_LIGHT4 ); // Posicional en Origen
 
 
       // Light 0.
       //	      
       //
       gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_AMBIENT, ambient, 0 );
-      //gl.glLightfv( GL.GL_LIGHT0, GL.GL_DIFFUSE, colorWhite, 0 );
+      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_DIFFUSE, colorWhite, 0 );
       gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_POSITION, position, 0 );	
 
       // Light 1.
       //
+      /*
       gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_AMBIENT, colorWhite, 0 );
       gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_DIFFUSE, colorWhite, 0 );
       gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_SPECULAR, colorWhite, 0 );
@@ -109,6 +136,12 @@ class Light {
       //
       gl.glLightf( GL2.GL_LIGHT4, GL2.GL_CONSTANT_ATTENUATION, 0.3f );
 
+      */
+      
+      this.initPosition(gl);
+      
+      glu = new GLU();                        // get GL Utilities
+      glut = new GLUT();
     }
 
   public void initPosition( GL2 gl )
@@ -121,13 +154,14 @@ class Light {
       //float posLight1[] = { 0f, 5f, -3f, 1.0f };
       float posLight1[] = { lightX, lightY, lightZ, 1.0f };
       float spotDirection1[] = { -1.f, -1.f, -1.f };
-      gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_POSITION, posLight1, 0 );
-      gl.glLightf( GL2.GL_LIGHT1, GL2.GL_SPOT_CUTOFF, 15.0F);
-      gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_SPOT_DIRECTION, spotDirection1, 0 );
-      gl.glLightf( GL2.GL_LIGHT1, GL2.GL_SPOT_EXPONENT, 50f  );
+      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_POSITION, posLight1, 0 );
+      gl.glLightf( GL2.GL_LIGHT0, GL2.GL_SPOT_CUTOFF, 15.0F);
+      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, spotDirection1, 0 );
+      gl.glLightf( GL2.GL_LIGHT0, GL2.GL_SPOT_EXPONENT, 50f  );
       
       // Light2
       //
+      /*
       float posLight2[] = { .5f, 1.f, 3.f, 0.0f };
       gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_POSITION, posLight2, 0 );
 
@@ -140,7 +174,7 @@ class Light {
       //
       float posLight4[] = { 0f, 0f, 0f, 1f };
       gl.glLightfv( GL2.GL_LIGHT4, GL2.GL_POSITION, posLight4, 0 );
-
+      */
     }
 
 
@@ -159,8 +193,8 @@ class Light {
 
   public void animate( GL2 gl, GLU glu , GLUT glut ) 
     {
-      float posLight1[] = { lightX, lightY, lightZ, 1.f };
-      gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_POSITION, posLight1, 0 );
+      float posLight0[] = { lightX, lightY, lightZ, 1.f };
+      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_POSITION, posLight0, 0 );
       drawLight( gl, glu, glut );
       //lightX += 0.003f;
       //lightY += 0.003f;
@@ -279,5 +313,97 @@ class Light {
     {
       glut.glutSolidTeapot( 1.0f, false );
     }
+
+    @Override
+    public void dispose(GLAutoDrawable glad) {
+        
+    }
+
+    @Override
+    public void display(GLAutoDrawable glad) {
+               
+        GL2 gl = glad.getGL().getGL2();  // get the OpenGL 2 graphics context
+        gl.glMatrixMode(GL_MODELVIEW);
+        gl.glLoadIdentity();  // reset the model-view matrix
+        
+        //gl.glTranslatef(0.0f, 0.0f, -5.0f);
+        glu.gluLookAt(0.0, 0.0, -5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);     
+        
+        this.setSomeWhiteMaterial( gl, GL.GL_FRONT_AND_BACK );
+        
+        this.drawTeaPotWithLight(gl, glut);
+        this.animate(gl,this.glu,this.glut);
+      
+        gl.glFlush();
+        
+    }
+
+    @Override
+    public void reshape(GLAutoDrawable glad,int x, int y, int width, int height) {
+        GL2 gl = glad.getGL().getGL2();  // get the OpenGL 2 graphics context
+
+        if (height == 0) height = 1;   // prevent divide by zero
+        float aspect = (float)width / height;
+
+        // Set the view port (display area) to cover the entire window
+        gl.glViewport(0, 0, width, height);
+
+        // Setup perspective projection, with aspect ratio matches viewport
+        gl.glMatrixMode(GL_PROJECTION);  // choose projection matrix
+        gl.glLoadIdentity();             // reset projection matrix
+        glu.gluPerspective(fovy, aspect, 0.1, 50.0); // fovy, aspect, zNear, zFar
+        
+        // Enable the model-view transform
+        gl.glMatrixMode(GL_MODELVIEW);
+        gl.glLoadIdentity(); // reset
+        
+    }
+
+       public static void main(String[] args) {
+      // Run the GUI codes in the event-dispatching thread for thread safety
+      SwingUtilities.invokeLater(new Runnable() {
+         @Override
+         public void run() {
+            // Create the OpenGL rendering canvas
+            GLCanvas canvas = new Light();
+            canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+ 
+            // Create a animator that drives canvas' display() at the specified FPS.
+            final FPSAnimator animator = new FPSAnimator(canvas, FPS, true);
+ 
+            // Create the top-level container
+            final JFrame frame = new JFrame(); // Swing's JFrame or AWT's Frame
+            JPanel panel1 = new JPanel();
+            JPanel panel2 = new JPanel();
+            
+            FlowLayout fl = new FlowLayout();
+            frame.setLayout(fl);
+            
+            panel1.add(canvas);
+            frame.getContentPane().add(panel1);
+            frame.getContentPane().add(panel2);            
+            frame.addWindowListener(new WindowAdapter() {
+               @Override
+               public void windowClosing(WindowEvent e) {
+                  // Use a dedicate thread to run the stop() to ensure that the
+                  // animator stops before program exits.
+                  new Thread() {
+                     @Override
+                     public void run() {
+                        if (animator.isStarted()) animator.stop();
+                        System.exit(0);
+                     }
+                  }.start();
+               }
+            });
+                        
+            frame.setTitle(TITLE);
+            frame.pack();
+            frame.setVisible(true);
+            animator.start(); // start the animation loop
+         }
+      });
+   }
+    
 
 }
