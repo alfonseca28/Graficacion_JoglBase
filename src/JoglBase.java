@@ -117,15 +117,17 @@ public class JoglBase extends GLCanvas implements GLEventListener {
  
       // Set the view port (display area) to cover the entire window
       gl.glViewport(0, 0, width, height);
- 
+
       // Setup perspective projection, with aspect ratio matches viewport
       gl.glMatrixMode(GL_PROJECTION);  // choose projection matrix
       gl.glLoadIdentity();             // reset projection matrix
       glu.gluPerspective(fovy, aspect, 0.1, 50.0); // fovy, aspect, zNear, zFar
- 
+      
+      /*
       // Enable the model-view transform
       gl.glMatrixMode(GL_MODELVIEW);
       gl.glLoadIdentity(); // reset
+      */
    }
  
    /**
@@ -133,36 +135,20 @@ public class JoglBase extends GLCanvas implements GLEventListener {
     */
    @Override
    public void display(GLAutoDrawable drawable) {
-       
-        float aspect = (float)this.getWidth() / this.getHeight();
         GL2 gl = drawable.getGL().getGL2();  // get the OpenGL 2 graphics context
-        gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color and depth buffers
-
-        float[] lightPos = { 0.0f,5.0f,10.0f,1 };
-        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION,lightPos, 0);
-
+        gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
-        gl.glEnable(GL.GL_LINE_SMOOTH);
-        gl.glEnable(GL.GL_BLEND);
-
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-        gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
-
-        glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-              
+        //glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);     
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
-        
         // Aqui inicia el dibujo de objetos
-
-        gl.glBegin(GL_TRIANGLES); // draw using triangles
+        gl.glBegin(GL_LINES); // draw using triangles
            gl.glColor3f(1.0f,0,0);
            
            gl.glVertex3f(0, 0, 0);
            
            gl.glVertex3f(1, 1,0);                 
-           
-           gl.glVertex3f(2,0, 0);
+                   
            
         gl.glEnd();
 
@@ -172,100 +158,7 @@ public class JoglBase extends GLCanvas implements GLEventListener {
       
    }
 
-    void drawCube(GL2 gl){     
-
-        gl.glBegin(GL2.GL_QUADS);
-        // Front Face
-        gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Left
-        gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right
-        gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right
-        gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Left
-        // Back Face
-        gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Right
-        gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Right
-        gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Left
-        gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Left
-        // Top Face
-        gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left
-        gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Bottom Left
-        gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right
-        gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right
-        // Bottom Face
-        gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Top Right
-        gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Top Left
-        gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left
-        gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right
-        // Right face
-        gl.glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Right
-        gl.glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right
-        gl.glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Left
-        gl.glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left
-        // Left Face
-        gl.glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Left
-        gl.glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right
-        gl.glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Right
-        gl.glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left
-        gl.glEnd();
-    }
    
-    void drawPyramid(float x,float y,float z,float w,float h,GL2 gl){
-      float mw=w/2;
-      float mh=h/2;
-      float xi,xd,ys,yi,zf,zp;
-      
-      xi=x-mw;
-      xd=x+mw;
-              
-      yi=y-mh;
-      ys=y+mh;
-              
-      zf=z+mw;
-      zp=z-mw;              
-                   
-      gl.glBegin(GL_TRIANGLES); // draw using triangles
-         gl.glColor3f(1.0f,0,0);
-         gl.glVertex3f(xi, yi, zf);
-         gl.glColor3f(0,1.0f,0);
-         gl.glVertex3f(x, ys, z);                 
-         gl.glColor3f(0,0,1.0f);
-         gl.glVertex3f(xd, yi, zf);
-      gl.glEnd();
-      
-      gl.glBegin(GL_TRIANGLES); // draw using triangles
-         gl.glColor3f(0.0f,0,1.0f);
-         gl.glVertex3f(xd,yi,zf);
-         gl.glColor3f(0,1.0f,0);
-         gl.glVertex3f(x, ys, z);
-         gl.glColor3f(1.0f,0,0);
-         gl.glVertex3f(xd, yi,zp);
-      gl.glEnd();
-      gl.glBegin(GL_TRIANGLES); // draw using triangles
-         gl.glColor3f(1.0f,0.0f,0.0f);
-         gl.glVertex3f(xd, yi, zp);
-         gl.glColor3f(0,1.0f,0);
-         gl.glVertex3f(x, ys,z);
-         gl.glColor3f(0.0f,0,1.0f);
-         gl.glVertex3f(xi, yi, zp);
-      gl.glEnd();
-      gl.glBegin(GL_TRIANGLES); // draw using triangles
-         gl.glColor3f(0.0f,0,1.0f);
-         gl.glVertex3f(xi,yi, zp);
-         gl.glColor3f(0,1.0f,0);
-         gl.glVertex3f(x, ys, z);
-         gl.glColor3f(1.0f,0,0.0f);
-         gl.glVertex3f(xi, yi, zf);
-      gl.glEnd();
-      gl.glBegin(GL_QUADS ); // draw using triangles
-         gl.glColor3f(1.0f,0,0);
-         gl.glVertex3f(xi, yi, zf);
-         gl.glColor3f(0,0.0f,1.0f);
-         gl.glVertex3f(xd, yi, zf);
-         gl.glColor3f(1.0f,0,0.0f);
-         gl.glVertex3f(xd, yi, zp);
-         gl.glColor3f(0.0f,0.0f,1.0f);
-         gl.glVertex3f(xi, yi, zp);
-      gl.glEnd();          
-   }
 
    /**
     * Called back before the OpenGL context is destroyed. Release resource such as buffers.
