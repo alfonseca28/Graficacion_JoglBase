@@ -67,6 +67,9 @@ class Light extends GLCanvas implements GLEventListener {
     {
       GL2 gl = drawable.getGL().getGL2();
       // Establece un material por default.
+      gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
+      gl.glClearDepth(1.0f);  
+      
       setSomeWhiteMaterial( gl, GL.GL_FRONT_AND_BACK );
 
             
@@ -321,17 +324,21 @@ class Light extends GLCanvas implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable glad) {
-               
+        
         GL2 gl = glad.getGL().getGL2();  // get the OpenGL 2 graphics context
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
         
-        //gl.glTranslatef(0.0f, 0.0f, -5.0f);
+        
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+
+//gl.glTranslatef(0.0f, 0.0f, -5.0f);
         glu.gluLookAt(0.0, 0.0, -5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);     
         
-        this.setSomeWhiteMaterial( gl, GL.GL_FRONT_AND_BACK );
+        this.setSomeGreenMaterial( gl, GL.GL_FRONT_AND_BACK );
         
         this.drawTeaPotWithLight(gl, glut);
+        
         this.animate(gl,this.glu,this.glut);
       
         gl.glFlush();
