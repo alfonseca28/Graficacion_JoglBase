@@ -74,8 +74,8 @@ class Light extends GLCanvas implements GLEventListener {
 
             
       // Alguna luz de ambiente global.
-      //float lmodel_ambient[] = { 0.3f, 0.3f, 0.3f, 1.0f };
-      float lmodel_ambient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+      float lmodel_ambient[] = { 0.7f, 0.7f, 0.7f, 1.0f };
+      // float lmodel_ambient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
       gl.glLightModelfv( GL2.GL_LIGHT_MODEL_AMBIENT, 
 			 lmodel_ambient, 0 );
@@ -312,9 +312,10 @@ class Light extends GLCanvas implements GLEventListener {
       } gl.glPopMatrix();
     }
   
-  public void drawTeaPotWithLight( GL gl, GLUT glut ) 
+  public void drawTeaPotWithLight( GL2 gl, GLUT glut ) 
     {
-      glut.glutSolidTeapot( 1.0f, false );
+      gl.glRotatef(1.0f, 0.0f, 0.0f, 90.0f);
+      glut.glutSolidTeapot( 1.0f, true );
     }
 
     @Override
@@ -335,7 +336,9 @@ class Light extends GLCanvas implements GLEventListener {
 //gl.glTranslatef(0.0f, 0.0f, -5.0f);
         glu.gluLookAt(0.0, 0.0, -5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);     
         
-        this.setSomeGreenMaterial( gl, GL.GL_FRONT_AND_BACK );
+        
+        
+        this.setSomeRedMaterial( gl, GL.GL_FRONT_AND_BACK );
         
         this.drawTeaPotWithLight(gl, glut);
         

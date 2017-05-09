@@ -152,6 +152,7 @@ public class JoglBase extends GLCanvas implements GLEventListener {
            
         gl.glEnd();
 
+         glut.glutSolidTeapot( 1.0f, false );
         
       
         gl.glFlush();
