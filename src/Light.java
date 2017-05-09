@@ -11,13 +11,15 @@ import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import com.jogamp.opengl.util.FPSAnimator;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-class Light extends GLCanvas implements GLEventListener {
+class Light extends GLCanvas implements GLEventListener, KeyListener {
 
    private static String TITLE = "Aplicacion de iluminacion";  // window's title
    private static final int CANVAS_WIDTH = 640;  // width of the drawable
@@ -56,6 +58,7 @@ class Light extends GLCanvas implements GLEventListener {
 
   public Light() {
     this.addGLEventListener(this);
+    this.addKeyListener(this);
   }
 
  /////////////// Define Luz y Material /////////
@@ -391,7 +394,9 @@ class Light extends GLCanvas implements GLEventListener {
             
             panel1.add(canvas);
             frame.getContentPane().add(panel1);
-            frame.getContentPane().add(panel2);            
+            frame.getContentPane().add(panel2);
+            frame.addKeyListener((KeyListener) canvas);
+            
             frame.addWindowListener(new WindowAdapter() {
                @Override
                public void windowClosing(WindowEvent e) {
@@ -414,6 +419,36 @@ class Light extends GLCanvas implements GLEventListener {
          }
       });
    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+ 
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+       int codigo = e.getKeyCode();
+        //  lightX, lightY, lightZ
+        System.out.println("codigo presionado = "+codigo);
+        
+        switch (codigo){
+            case KeyEvent.VK_DOWN : lightY--; break;
+            case KeyEvent.VK_UP   : lightY++; break;
+            
+            case KeyEvent.VK_RIGHT : lightX--; break;
+            case KeyEvent.VK_LEFT  : lightX++; break;
+
+            case 109 : lightZ--; break;
+            case 107  : lightZ++; break;             
+        }
+        System.out.println("Codigo de VK_MINUS = "+KeyEvent.VK_MINUS);
+        System.out.println("Codigo de VK_PLUS  = "+KeyEvent.VK_PLUS);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
     
 
 }
