@@ -1,6 +1,8 @@
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;        
 import com.jogamp.opengl.GL;
+import static com.jogamp.opengl.GL.GL_DEPTH_TEST;
+import static com.jogamp.opengl.GL.GL_LEQUAL;
 import static com.jogamp.opengl.GL.GL_LINES;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -72,7 +74,9 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
       GL2 gl = drawable.getGL().getGL2();
       // Establece un material por default.
       gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
-      gl.glClearDepth(1.0f);  
+      gl.glClearDepth(1.0f);      // set clear depth value to farthest
+      gl.glEnable(GL_DEPTH_TEST); // enables depth testing
+      gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do 
       gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
       setSomeWhiteMaterial( gl, GL.GL_FRONT_AND_BACK );
 
@@ -440,7 +444,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
             case KeyEvent.VK_LEFT  : this.moveLightX(true); break;
             
             case 109 : this.moveLightZ(false); break;
-            case 107  : this.moveLightZ(false); break;             
+            case 107  : this.moveLightZ(true); break;             
         }
         
     }
