@@ -6,6 +6,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLCanvas;
+import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -72,7 +73,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
       // Establece un material por default.
       gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
       gl.glClearDepth(1.0f);  
-      
+      gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
       setSomeWhiteMaterial( gl, GL.GL_FRONT_AND_BACK );
 
             
@@ -432,17 +433,16 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
         System.out.println("codigo presionado = "+codigo);
         
         switch (codigo){
-            case KeyEvent.VK_DOWN : lightY--; break;
-            case KeyEvent.VK_UP   : lightY++; break;
+            case KeyEvent.VK_DOWN : this.moveLightY(false); break;
+            case KeyEvent.VK_UP   : this.moveLightY(true); break;
             
-            case KeyEvent.VK_RIGHT : lightX--; break;
-            case KeyEvent.VK_LEFT  : lightX++; break;
-
-            case 109 : lightZ--; break;
-            case 107  : lightZ++; break;             
+            case KeyEvent.VK_RIGHT : this.moveLightX(false); break;
+            case KeyEvent.VK_LEFT  : this.moveLightX(true); break;
+            
+            case 109 : this.moveLightZ(false); break;
+            case 107  : this.moveLightZ(false); break;             
         }
-        System.out.println("Codigo de VK_MINUS = "+KeyEvent.VK_MINUS);
-        System.out.println("Codigo de VK_PLUS  = "+KeyEvent.VK_PLUS);
+        
     }
 
     @Override
