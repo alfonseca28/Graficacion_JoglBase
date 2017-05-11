@@ -21,7 +21,7 @@ import static com.jogamp.opengl.GL2ES3.GL_QUADS;
  * JoglBase Programa Plantilla (GLCanvas)
  */
 @SuppressWarnings("serial")
-public class JoglBase extends GLCanvas implements GLEventListener {
+public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
    // Define constants for the top-level container
    private static String TITLE = "Plantilla Base java open gl";  // window's title
    private static final int CANVAS_WIDTH = 640;  // width of the drawable
@@ -32,6 +32,8 @@ public class JoglBase extends GLCanvas implements GLEventListener {
    
    private GLU glu;  // for the GL Utility
    private GLUT glut;
+   
+   float rotX=90.0f;
     
    /** The entry main() method to setup the top-level container and animator */
    public static void main(String[] args) {
@@ -142,20 +144,11 @@ public class JoglBase extends GLCanvas implements GLEventListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         // Aqui inicia el dibujo de objetos
-        gl.glBegin(GL_LINES); // draw using triangles
-           gl.glColor3f(1.0f,0,0);
-           
-           gl.glVertex3f(0, 0, 0);
-           
-           gl.glVertex3f(1, 1,0);                 
-                   
-           
-        gl.glEnd();
-
-         glut.glutSolidTeapot( 1.0f, false );
-        
-      
+        gl.glRotatef(1.0f, 0.0f, 0.0f, this.rotX);
+        glut.glutSolidTeapot( 1.0f, false );
+              
         gl.glFlush();
+       
       
    }
 
@@ -166,6 +159,33 @@ public class JoglBase extends GLCanvas implements GLEventListener {
     */
    @Override
    public void dispose(GLAutoDrawable drawable) { }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int codigo = e.getKeyCode();
+        
+        System.out.println("codigo presionado = "+codigo);
+        
+        switch (codigo){          
+            case 34:
+                 rotX-=5.0f;
+                 break;
+            case 33:    
+                 rotX+=5.0f;
+                 break;
+        }
+        System.out.println("rotX = "+rotX); 
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
+    }
 
 
 }

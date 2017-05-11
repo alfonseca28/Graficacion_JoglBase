@@ -27,12 +27,18 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
    private static String TITLE = "Aplicacion de iluminacion";  // window's title
    private static final int CANVAS_WIDTH = 640;  // width of the drawable
    private static final int CANVAS_HEIGHT = 480; // height of the drawable
-   private static final int FPS = 60; // animator's target frames per second
+   private static final int FPS = 1; // animator's target frames per second
    private static final float factInc = 5.0f; // animator's target frames per second
    private float fovy = 45.0f;    
     
   //////////////// Variables /////////////////////////
 
+  // Referencias de rotacion
+   
+  float rotX = 90.0f;
+  float rotY = 0.0f;
+  float rotZ = 0.0f;
+   
   // Posicion de la luz.
   float lightX=1f;
   float lightY=1f;
@@ -322,7 +328,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
   
   public void drawTeaPotWithLight( GL2 gl, GLUT glut ) 
     {
-      gl.glRotatef(1.0f, 0.0f, 0.0f, 90.0f);
+      gl.glRotatef(1.0f, 0.0f, 0.0f, rotX);
       glut.glutSolidTeapot( 1.0f, true );
     }
 
@@ -337,8 +343,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
         GL2 gl = glad.getGL().getGL2();  // get the OpenGL 2 graphics context
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
-        
-        
+ 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
 //gl.glTranslatef(0.0f, 0.0f, -5.0f);
@@ -445,8 +450,15 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
             
             case 109 : this.moveLightZ(false); break;
             case 107  : this.moveLightZ(true); break;             
+            
+            case 34:
+                 rotX-=5.0f;
+                 break;
+            case 33:    
+                 rotX+=5.0f;
+                 break;
         }
-        
+        System.out.println("rotX = "+rotX);
     }
 
     @Override
