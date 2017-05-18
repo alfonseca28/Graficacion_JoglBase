@@ -144,8 +144,15 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         // Aqui inicia el dibujo de objetos
-        gl.glRotatef(1.0f, 0.0f, 0.0f, this.rotX);
-        glut.glutSolidTeapot( 1.0f, false );
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        
+        gl.glBegin(GL2.GL_TRIANGLES);
+            gl.glVertex3f(0.0f, 0.0f, 0.0f);
+            gl.glColor3f(0.0f, 1.0f, 0.0f);
+            gl.glVertex3f(1.0f, 1.0f, 0.0f);
+            gl.glColor3f(0.0f, 0.0f, 1.0f);
+            gl.glVertex3f(1.0f, 0.0f, 0.0f);
+        gl.glEnd();
               
         gl.glFlush();
        
