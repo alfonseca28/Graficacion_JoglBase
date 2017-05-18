@@ -27,7 +27,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
    private static String TITLE = "Aplicacion de iluminacion";  // window's title
    private static final int CANVAS_WIDTH = 640;  // width of the drawable
    private static final int CANVAS_HEIGHT = 480; // height of the drawable
-   private static final int FPS = 1; // animator's target frames per second
+   private static final int FPS = 60; // animator's target frames per second
    private static final float factInc = 5.0f; // animator's target frames per second
    private float fovy = 45.0f;    
     
@@ -328,7 +328,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
   
   public void drawTeaPotWithLight( GL2 gl, GLUT glut ) 
     {
-      gl.glRotatef(1.0f, 0.0f, 0.0f, rotX);
+      gl.glRotatef(rotX,1.0f, 0.0f, 0.0f);
       glut.glutSolidTeapot( 1.0f, true );
     }
 
