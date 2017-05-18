@@ -34,6 +34,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
    private GLUT glut;
    
    float rotX=90.0f;
+   float despl=0.0f;
     
    /** The entry main() method to setup the top-level container and animator */
    public static void main(String[] args) {
@@ -85,6 +86,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
    /** Constructor to setup the GUI for this Component */
    public JoglBase() {
       this.addGLEventListener(this);
+      this.addKeyListener(this);
    }
  
    // ------ Implement methods declared in GLEventListener ------
@@ -140,18 +142,23 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
         GL2 gl = drawable.getGL().getGL2();  // get the OpenGL 2 graphics context
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
-        glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);     
+        glu.gluLookAt(0.0, 0.0, 3.0, despl, 0.0, 0.0, 0.0, 1.0, 0.0);     
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         // Aqui inicia el dibujo de objetos
-        gl.glColor3f(1.0f, 0.0f, 0.0f);
-        
-        gl.glBegin(GL2.GL_TRIANGLES);
+        gl.glTranslatef(-0.5f, -0.5f, 0.0f);
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
             gl.glVertex3f(0.0f, 0.0f, 0.0f);
+            
             gl.glColor3f(0.0f, 1.0f, 0.0f);
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);
+            gl.glVertex3f(0.0f, 1.0f, 0.0f);
+            
             gl.glColor3f(0.0f, 0.0f, 1.0f);
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);
+            gl.glVertex3f(1.0f, 1.0f, 0.0f);
+
+            gl.glColor3f(0.0f, 0.0f, 0.0f);
+            gl.glVertex3f(1.0f, 0.0f, 0.0f);  
         gl.glEnd();
               
         gl.glFlush();
@@ -184,6 +191,12 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
                  break;
             case 33:    
                  rotX+=5.0f;
+                 break;
+            case 88:
+                 despl+=0.5f;
+                 break;                
+            case 90:
+                 despl-=0.5f;
                  break;
         }
         System.out.println("rotX = "+rotX); 
