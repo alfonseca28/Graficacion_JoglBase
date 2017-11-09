@@ -21,19 +21,19 @@ import static com.jogamp.opengl.GL2ES3.GL_QUADS;
  * JoglBase Programa Plantilla (GLCanvas)
  */
 @SuppressWarnings("serial")
-public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
+public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  {
    // Define constants for the top-level container
    private static String TITLE = "Plantilla Base java open gl";  // window's title
    private static final int CANVAS_WIDTH = 640;  // width of the drawable
    private static final int CANVAS_HEIGHT = 480; // height of the drawable
-   private static final int FPS = 60; // animator's target frames per second
+   private static final int FPS = 24; // animator's target frames per second
    private static final float factInc = 5.0f; // animator's target frames per second
    private float fovy = 45.0f;
    
    private GLU glu;  // for the GL Utility
    private GLUT glut;
    
-   float rotX=90.0f;
+   float rotX=0.0f;
    float despl=0.0f;
     
    /** The entry main() method to setup the top-level container and animator */
@@ -52,14 +52,13 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
             // Create the top-level container
             final JFrame frame = new JFrame(); // Swing's JFrame or AWT's Frame
             JPanel panel1 = new JPanel();
-            JPanel panel2 = new JPanel();
             
             FlowLayout fl = new FlowLayout();
             frame.setLayout(fl);
             
             panel1.add(canvas);
             frame.getContentPane().add(panel1);
-            frame.getContentPane().add(panel2);            
+            
             frame.addWindowListener(new WindowAdapter() {
                @Override
                public void windowClosing(WindowEvent e) {
@@ -73,6 +72,20 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
                      }
                   }.start();
                }
+            });
+            
+            frame.addComponentListener(new ComponentAdapter(){
+                    public void componentResized(ComponentEvent ev) {
+                            Component c = (Component)ev.getSource();
+                            // Get new size
+                            Dimension newSize = c.getSize();
+                            
+                            panel1.setSize(newSize);
+                            System.out.println("Frame redimensionado: "+newSize.width+"x"+newSize.height);
+                            
+                            canvas.setSize(newSize);
+                            
+                    }   
             });
                         
             frame.setTitle(TITLE);
@@ -105,7 +118,6 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
       gl.glEnable(GL_DEPTH_TEST); // enables depth testing
       gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do
       gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
-      
    }
  
    /**
@@ -142,11 +154,15 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
         GL2 gl = drawable.getGL().getGL2();  // get the OpenGL 2 graphics context
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
-        glu.gluLookAt(0.0, 0.0, 3.0, despl, 0.0, 0.0, 0.0, 1.0, 0.0);     
+        
+        glu.gluLookAt(despl, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
+        
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         // Aqui inicia el dibujo de objetos
+        gl.glRotatef(rotX,1.0f,0.0f,0.0f);
         gl.glTranslatef(-0.5f, -0.5f, 0.0f);
+        
         gl.glBegin(GL2.GL_QUADS);
             gl.glColor3f(1.0f, 0.0f, 0.0f);
             gl.glVertex3f(0.0f, 0.0f, 0.0f);
@@ -185,17 +201,17 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
         
         System.out.println("codigo presionado = "+codigo);
         
-        switch (codigo){          
-            case 34:
+        switch (codigo){                     
+            case KeyEvent.VK_LEFT:
                  rotX-=5.0f;
                  break;
-            case 33:    
-                 rotX+=5.0f;
-                 break;
-            case 88:
-                 despl+=0.5f;
-                 break;                
-            case 90:
+            case KeyEvent.VK_RIGHT:
+                 rotX+=0.5f;
+                 break;  
+            case KeyEvent.VK_UP:    
+                 despl+=5.0f;
+                 break;                 
+            case KeyEvent.VK_DOWN:
                  despl-=0.5f;
                  break;
         }
@@ -206,6 +222,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         
     }
+
 
 
 }
