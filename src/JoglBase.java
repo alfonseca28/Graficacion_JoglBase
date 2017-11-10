@@ -33,8 +33,10 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
    private GLU glu;  // for the GL Utility
    private GLUT glut;
    
-   float rotX=0.0f;
+   float rotacion=0.0f;
    float despl=0.0f;
+   float despX=0.0f;
+   float despZ=0.0f;
     
    /** The entry main() method to setup the top-level container and animator */
    public static void main(String[] args) {
@@ -58,6 +60,8 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
             
             panel1.add(canvas);
             frame.getContentPane().add(panel1);
+            
+            frame.addKeyListener((KeyListener) canvas);
             
             frame.addWindowListener(new WindowAdapter() {
                @Override
@@ -151,31 +155,30 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
         
-        glu.gluLookAt(despl, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
+        //glu.gluLookAt(despl, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
         
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         // Aqui inicia el dibujo de objetos
-        gl.glRotatef(rotX,1.0f,0.0f,0.0f);
-        gl.glTranslatef(-0.5f, -0.5f, 0.0f);
+        gl.glRotatef(this.rotacion,0.0f,1.0f,0.0f);
+        gl.glTranslatef(0.0f, 0.0f, -3.0f);
         
         gl.glBegin(GL2.GL_QUADS);
             gl.glColor3f(1.0f, 0.0f, 0.0f);
-            gl.glVertex3f(0.0f, 0.0f, 0.0f);
+            gl.glVertex3f(-1.0f, -1.0f, 0.0f);
             
             gl.glColor3f(0.0f, 1.0f, 0.0f);
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);
+            gl.glVertex3f(-1.0f, 1.0f, 0.0f);
             
             gl.glColor3f(0.0f, 0.0f, 1.0f);
             gl.glVertex3f(1.0f, 1.0f, 0.0f);
 
             gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);  
+            gl.glVertex3f(1.0f, -1.0f, 0.0f);  
         gl.glEnd();
               
         gl.glFlush();
-       
-      
+            
    }
 
    
@@ -199,19 +202,22 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
         
         switch (codigo){                     
             case KeyEvent.VK_LEFT:
-                 rotX-=5.0f;
+                 this.despX-=0.2f;
                  break;
             case KeyEvent.VK_RIGHT:
-                 rotX+=0.5f;
+                 this.despX+=0.2f;
                  break;  
             case KeyEvent.VK_UP:    
-                 despl+=5.0f;
+                 this.despZ+=0.2f;
                  break;                 
             case KeyEvent.VK_DOWN:
-                 despl-=0.5f;
+                 this.despZ-=0.2f;
                  break;
+            case KeyEvent.VK_R:
+                 this.rotacion+=5.0f;
+                 break;                 
         }
-        System.out.println("rotX = "+rotX); 
+        System.out.println("despX ="+this.despX+" - "+"despZ ="+this.despZ); 
     }
 
     @Override
