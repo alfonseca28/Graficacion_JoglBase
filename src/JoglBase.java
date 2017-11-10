@@ -78,13 +78,9 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
                     public void componentResized(ComponentEvent ev) {
                             Component c = (Component)ev.getSource();
                             // Get new size
-                            Dimension newSize = c.getSize();
-                            
-                            panel1.setSize(newSize);
-                            System.out.println("Frame redimensionado: "+newSize.width+"x"+newSize.height);
-                            
-                            canvas.setSize(newSize);
-                            
+                            Dimension newSize = c.getSize();                            
+                            panel1.setSize(newSize);                                                        
+                            canvas.setSize(newSize);                            
                     }   
             });
                         
