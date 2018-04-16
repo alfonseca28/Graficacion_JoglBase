@@ -333,11 +333,16 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
         gl.glLoadIdentity();  // reset the model-view matrix
  
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-
-        glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);     
-          
+        glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        
         this.setSomeGreenMaterial( gl, GL.GL_FRONT_AND_BACK );      
-        this.drawTeaPotWithLight(gl, glut);        
+        this.drawTeaPotWithLight(gl, glut);
+
+        gl.glTranslatef(0.0f,0.0f,-2.0f);
+        this.setSomeRedMaterial(gl,GL.GL_FRONT_AND_BACK );
+        this.drawTeaPotWithLight(gl, glut);
+        
+        
         this.animate(gl,this.glu,this.glut);
       
         gl.glFlush();

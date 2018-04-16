@@ -117,7 +117,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
       gl.glClearDepth(1.0f);      // set clear depth value to farthest
       gl.glEnable(GL_DEPTH_TEST); // enables depth testing
       gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do
-      gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
+      //gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
    }
  
    /**
@@ -155,28 +155,90 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
         
-        //glu.gluLookAt(despl, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
-        
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+        
+        glu.gluLookAt(2.0f, 2.0f, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
+        
+        gl.glColor3f(0.0f,0.0f,1.0f);
+        
+        gl.glBegin(GL2.GL_LINES);
+            gl.glVertex3f(-100.0f,0.0f,0.0f);
+            gl.glVertex3f(100.0f,0.0f,0.0f);
+        gl.glEnd();
 
-        // Aqui inicia el dibujo de objetos
-        gl.glRotatef(this.rotacion,0.0f,1.0f,0.0f);
-        gl.glTranslatef(0.0f, 0.0f, -3.0f);
+        gl.glBegin(GL2.GL_LINES);
+            gl.glVertex3f(0.0f,-100.0f,0.0f);
+            gl.glVertex3f(0.0f,100.0f,0.0f);
+        gl.glEnd();
+
+        gl.glBegin(GL2.GL_LINES);
+            gl.glVertex3f(0.0f,0.0f,-100.0f);
+            gl.glVertex3f(0.0f,0.0f,100.0f);
+        gl.glEnd();
+        
+        gl.glLoadIdentity();
+        
+        glu.gluLookAt(2.0f, 2.0f, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        gl.glTranslatef(this.despX,0.0f,this.despZ);
         
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 0.4f, 0.8f);
-            gl.glVertex3f(-1.0f, -1.0f, 0.0f);
-            
-            //gl.glColor3f(0.0f, 1.0f, 0.0f);
-            gl.glVertex3f(-1.0f, 1.0f, 0.0f);
-            
-            //gl.glColor3f(0.0f, 0.0f, 1.0f);
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 0.0f, -1.0f);
+            gl.glVertex3f(0.0f, 0.0f, -1.0f);  
+        gl.glEnd();        
 
-            //gl.glColor3f(0.0f, 0.0f, 0.0f);
-            gl.glVertex3f(1.0f, -1.0f, 0.0f);  
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(0.0f, 1.0f, 0.0f);
+            gl.glVertex3f(0.0f, 0.0f, -1.0f);            
+            gl.glVertex3f(1.0f, 0.0f, -1.0f);            
+            gl.glVertex3f(1.0f, 1.0f, -1.0f);
+            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
+        gl.glEnd();  
+
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(0.0f, 0.0f, 1.0f);
+            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
+            gl.glVertex3f(0.0f, 1.0f, -1.0f);
+            gl.glVertex3f(0.0f, 0.0f, -1.0f);  
         gl.glEnd();
-              
+
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(0.0f, 0.0f, 1.0f);
+            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, -1.0f);
+            gl.glVertex3f(1.0f, 0.0f, -1.0f);  
+        gl.glEnd();     
+        
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(0.0f, 1.0f, 0.0f);
+            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, 0.0f);
+            gl.glVertex3f(0.0f, 1.0f, 0.0f);  
+        gl.glEnd(); 
+        
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, -1.0f);
+            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
+        gl.glEnd();         
+        
+        
+        
+        this.rotacion+=5.0f;
+        if (this.rotacion>360){
+            this.rotacion = 0;
+        }
+        
+        System.out.printf("Rotacion %f \n", this.rotacion);
+        
+            
         gl.glFlush();
             
    }
@@ -207,10 +269,10 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
             case KeyEvent.VK_RIGHT:
                  this.despX+=0.2f;
                  break;  
-            case KeyEvent.VK_UP:    
+            case KeyEvent.VK_DOWN:    
                  this.despZ+=0.2f;
                  break;                 
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_UP:
                  this.despZ-=0.2f;
                  break;
             case KeyEvent.VK_R:
