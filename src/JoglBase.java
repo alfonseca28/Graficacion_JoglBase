@@ -181,6 +181,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
         glu.gluLookAt(2.0f, 2.0f, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
         gl.glTranslatef(this.despX,0.0f,this.despZ);
         
+        gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);
         gl.glBegin(GL2.GL_QUADS);
             gl.glColor3f(1.0f, 0.0f, 0.0f);
             gl.glVertex3f(0.0f, 0.0f, 0.0f);            
