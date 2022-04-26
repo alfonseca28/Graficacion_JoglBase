@@ -3,7 +3,6 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.GL;
 import static com.jogamp.opengl.GL.GL_DEPTH_TEST;
 import static com.jogamp.opengl.GL.GL_LEQUAL;
-import static com.jogamp.opengl.GL.GL_LINES;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
@@ -45,8 +44,8 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
   float lightZ=1f;
   float dLight=0.05f;
 
-  // Material y luces.
-  final float ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+  // Material y luces.       R     G     B     A
+  final float ambient[] = { 0.282f, 0.427f, 0.694f, 1.0f };
   final float position[] = { lightX, lightY, lightZ, 1.0f };
   final float mat_diffuse[] = { 0.6f, 0.6f, 0.6f, 1.0f };
   final float mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -84,10 +83,9 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
       gl.glEnable(GL_DEPTH_TEST); // enables depth testing
       gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do 
       gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
-      
-      setSomeWhiteMaterial( gl, GL.GL_FRONT_AND_BACK );
-      
+                  
       // Alguna luz de ambiente global.
+
       gl.glLightModelfv( GL2.GL_LIGHT_MODEL_AMBIENT, 
 			 this.ambient, 0 );
       
@@ -95,53 +93,14 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
       gl.glEnable( GL2.GL_LIGHTING );
       //gl.glDisable( GL2.GL_LIGHTING );
       gl.glEnable( GL2.GL_LIGHT0 );
-      //gl.glEnable( GL2.GL_LIGHT1 );
-      //gl.glEnable( GL2.GL_LIGHT2 );
-      //gl.glEnable( GL2.GL_LIGHT3 ); 
-      //gl.glEnable( GL2.GL_LIGHT4 ); // Posicional en Origen
-
 
       // Light 0.
       //	      
       //
-      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_AMBIENT, ambient, 0 );
+      // gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_AMBIENT, ambient, 0 );
       gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_DIFFUSE, colorWhite, 0 );
-      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_POSITION, position, 0 );	
-
-      // Light 1.
-      //
-      
-      gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_AMBIENT, colorWhite, 0 );
-      gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_DIFFUSE, colorWhite, 0 );
-      gl.glLightfv( GL2.GL_LIGHT1, GL2.GL_SPECULAR, colorWhite, 0 );
-      //gl.glLightfv( GL.GL_LIGHT1, GL.GL_SPECULAR, colorRed, 0 );
-      //
-      gl.glLightf( GL2.GL_LIGHT1, GL2.GL_CONSTANT_ATTENUATION, 0.5f );
-
-      // Light 2.
-      //
-      gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_AMBIENT, colorBlack, 0 );
-      gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_DIFFUSE, colorDarkGray, 0 );
-      gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_SPECULAR, colorDarkGray, 0 );
-      //
-      gl.glLightf( GL2.GL_LIGHT2, GL2.GL_CONSTANT_ATTENUATION, 0.8f );
-
-      // Light 3.
-      //
-      gl.glLightfv( GL2.GL_LIGHT3, GL2.GL_AMBIENT, colorWhite, 0 );
-      gl.glLightfv( GL2.GL_LIGHT3, GL2.GL_DIFFUSE, colorWhite, 0 );
-      gl.glLightfv( GL2.GL_LIGHT3, GL2.GL_SPECULAR, colorWhite, 0 );
-      //
-      gl.glLightf( GL2.GL_LIGHT3, GL2.GL_CONSTANT_ATTENUATION, 0.3f );
-
-      // Light 4.
-      //
-      //gl.glLightfv( GL.GL_LIGHT4, GL.GL_AMBIENT, colorWhite, 0 );
-      //gl.glLightfv( GL.GL_LIGHT4, GL.GL_DIFFUSE, colorWhite, 0 );
-      gl.glLightfv( GL2.GL_LIGHT4, GL2.GL_SPECULAR, colorWhite, 0 );
-      //
-      gl.glLightf( GL2.GL_LIGHT4, GL2.GL_CONSTANT_ATTENUATION, 0.3f );
-
+      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_SPECULAR, colorWhite, 0 );
+      gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_POSITION, position, 0 );	      
             
       this.initPosition(gl);
       
@@ -151,35 +110,9 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
 
   public void initPosition( GL2 gl )
     {
-      // Establece la posicion y dirección (spotlight) y SPOT_CUTOFF
-      //
-      //float posLight1[] = { 0f, 0f, 0f, 1.0f };
-      //float posLight1[] = { 1.0f, 1.f, 1.f, 0.0f };
-      //float posLight1[] = { 2f, 4f, 1f, 1.0f };
-      //float posLight1[] = { 0f, 5f, -3f, 1.0f };
       float posLight1[] = { lightX, lightY, lightZ, 1.0f };
       float spotDirection1[] = { 0.0f, -1.f, 0.f };
       gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_POSITION, posLight1, 0 );
-      //gl.glLightf( GL2.GL_LIGHT0, GL2.GL_SPOT_CUTOFF, 15.0F);
-      //gl.glLightfv( GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, spotDirection1, 0 );
-      //gl.glLightf( GL2.GL_LIGHT0, GL2.GL_SPOT_EXPONENT, 50f  );
-      
-      // Light2
-      //
-      /*
-      float posLight2[] = { .5f, 1.f, 3.f, 0.0f };
-      gl.glLightfv( GL2.GL_LIGHT2, GL2.GL_POSITION, posLight2, 0 );
-
-      // Light3
-      //
-      float posLight3[] = { .5f, 1.f, 3.f, 0.0f };
-      gl.glLightfv( GL2.GL_LIGHT3, GL2.GL_POSITION, posLight3, 0 );
-
-      // Light4
-      //
-      float posLight4[] = { 0f, 0f, 0f, 1f };
-      gl.glLightfv( GL2.GL_LIGHT4, GL2.GL_POSITION, posLight4, 0 );
-      */
     }
 
 
@@ -210,11 +143,11 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
 
   public void setLightSphereMaterial( GL2 gl, int face )
     {
-      gl.glMaterialfv( face, GL2.GL_AMBIENT, colorYellow, 0 );
-      gl.glMaterialfv( face, GL2.GL_DIFFUSE, colorYellow, 0 );
-      gl.glMaterialfv( face, GL2.GL_SPECULAR, colorYellow, 0 );
-      gl.glMateriali( face, GL2.GL_SHININESS, 4 );
-      gl.glMaterialfv( face, GL2.GL_EMISSION, colorYellow, 0 );
+      gl.glMaterialfv( face, GL2.GL_AMBIENT, colorBlue, 0 );
+      gl.glMaterialfv( face, GL2.GL_DIFFUSE, colorBlue, 0 );
+      gl.glMaterialfv( face, GL2.GL_SPECULAR, colorBlue, 0 );
+      gl.glMateriali( face, GL2.GL_SHININESS, 100 );
+      gl.glMaterialfv( face, GL2.GL_EMISSION, colorBlue, 0 );
       //gl.glMaterialfv( face, GL.GL_EMISSION, colorLightYellow , 0 );
       //gl.glMaterialfv( face, GL.GL_EMISSION, colorBlack , 0 );
     }
@@ -287,7 +220,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
       gl.glMaterialfv( face, GL2.GL_AMBIENT, colorRed , 0 );
       gl.glMaterialfv( face, GL2.GL_DIFFUSE, colorRed , 0 );
       gl.glMaterialfv( face, GL2.GL_SPECULAR, colorRed , 0 );
-      gl.glMateriali( face, GL2.GL_SHININESS, 4 );
+      gl.glMateriali( face, GL2.GL_SHININESS, 100);
       gl.glMaterialfv( face, GL2.GL_EMISSION, colorBlack , 0 );
     }
 
@@ -307,7 +240,7 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
 
   public void drawLight( GL2 gl, GLU glu , GLUT glut ) 
     {
-      setLightSphereMaterial( gl, GL.GL_FRONT_AND_BACK );
+      setLightSphereMaterial( gl, GL.GL_FRONT );
       gl.glPushMatrix(); {
 	gl.glTranslatef( lightX, lightY, lightZ );
 	glut.glutSolidSphere( 0.1f, 20, 20 );
@@ -335,11 +268,11 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         glu.gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
         
-        this.setSomeGreenMaterial( gl, GL.GL_FRONT_AND_BACK );      
-        this.drawTeaPotWithLight(gl, glut);
+        //this.setSomeGreenMaterial( gl, GL.GL_FRONT );      
+        //this.drawTeaPotWithLight(gl, glut);
 
         gl.glTranslatef(0.0f,0.0f,-2.0f);
-        this.setSomeRedMaterial(gl,GL.GL_FRONT_AND_BACK );
+        this.setSomeRedMaterial(gl,GL.GL_FRONT);
         this.drawTeaPotWithLight(gl, glut);
         
         
@@ -430,8 +363,8 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
         System.out.println("codigo presionado = "+codigo);
         
         switch (codigo){
-            case KeyEvent.VK_DOWN : this.moveLightY(true); break;
-            case KeyEvent.VK_UP   : this.moveLightY(false); break;            
+            case KeyEvent.VK_DOWN : this.moveLightY(false); break;
+            case KeyEvent.VK_UP   : this.moveLightY(true); break;            
             case KeyEvent.VK_RIGHT : this.moveLightX(true); break;
             case KeyEvent.VK_LEFT  : this.moveLightX(false); break;            
             case KeyEvent.VK_PAGE_UP : this.moveLightZ(false); break;
