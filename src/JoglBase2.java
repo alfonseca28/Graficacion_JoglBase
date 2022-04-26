@@ -27,7 +27,7 @@ import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 public class JoglBase2 {
     // Define constants for the top-level container
 
-    private static String TITLE = "Plantilla Base java open gl";  // window's title
+    private static final String TITLE = "Plantilla Base java open gl";  // window's title
     private final int CANVAS_WIDTH = 640;  // width of the drawable
     private final int CANVAS_HEIGHT = 480; // height of the drawable
     private final int FPS = 24; // animator's target frames per second
@@ -36,10 +36,11 @@ public class JoglBase2 {
     float rotacion = 0.0f;
     float despl = 0.0f;
     float despX = 0.0f;
+    float despY = 0.0f;
     float despZ = 0.0f;
 
     GLCanvas canvas;
-    MiGLEventListener pintor;
+    Pintor pintor;
     FPSAnimator animator;
 
     JFrame frame;
@@ -66,9 +67,10 @@ public class JoglBase2 {
      */
     public JoglBase2() {
         this.canvas = new GLCanvas();
-        this.pintor = new MiGLEventListener(this);
+        this.pintor = new Pintor(this);
 
         this.canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+        
         this.canvas.addGLEventListener(pintor);
         this.canvas.addKeyListener(pintor);
 
@@ -125,7 +127,7 @@ public class JoglBase2 {
                   
 }
 
-class MiGLEventListener implements GLEventListener, KeyListener {
+class Pintor implements GLEventListener, KeyListener {
     
     private final float factInc = 5.0f; // animator's target frames per second
     private float fovy = 45.0f;
@@ -135,7 +137,7 @@ class MiGLEventListener implements GLEventListener, KeyListener {
     private GLU glu;  // for the GL Utility
     private GLUT glut;
 
-    public MiGLEventListener(JoglBase2 p) {
+    public Pintor(JoglBase2 p) {
         this.padre = p;
     }
 
@@ -187,7 +189,7 @@ class MiGLEventListener implements GLEventListener, KeyListener {
         glu.gluLookAt(2.0f, 2.0f, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
         gl.glRotatef(this.padre.rotacion, 1.0f, 1.0f, 1.0f);
-        gl.glTranslatef(this.padre.despX, 0.0f, this.padre.despZ);
+        gl.glTranslatef(this.padre.despX, this.padre.despY, this.padre.despZ);
 
         gl.glColor3f(1.0f, 0.0f, 0.0f);
 
@@ -266,13 +268,7 @@ class MiGLEventListener implements GLEventListener, KeyListener {
         // Setup perspective projection, with aspect ratio matches viewport
         gl.glMatrixMode(GL_PROJECTION);  // choose projection matrix
         gl.glLoadIdentity();             // reset projection matrix
-        glu.gluPerspective(fovy, aspect, 0.1, 50.0); // fovy, aspect, zNear, zFar
-
-        /*
-      // Enable the model-view transform
-      gl.glMatrixMode(GL_MODELVIEW);
-      gl.glLoadIdentity(); // reset
-         */
+        glu.gluPerspective(fovy, aspect, 0.1, 10.0); // fovy, aspect, zNear, zFar
     }
 
     @Override
@@ -299,6 +295,14 @@ class MiGLEventListener implements GLEventListener, KeyListener {
             case KeyEvent.VK_UP:
                 this.padre.despZ -= 0.2f;
                 break;
+                
+            case KeyEvent.VK_PAGE_UP:
+                this.padre.despY += 0.2f;
+                break;
+            case KeyEvent.VK_PAGE_DOWN:
+                this.padre.despY -= 0.2f;
+                break;
+                
             case KeyEvent.VK_R:
                 this.padre.rotacion += 5.0f;
                 break;

@@ -36,6 +36,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
    float rotacion=0.0f;
    float despl=0.0f;
    float despX=0.0f;
+   float despY=0.0f;
    float despZ=0.0f;
     
    /** The entry main() method to setup the top-level container and animator */
@@ -116,8 +117,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
       gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
       gl.glClearDepth(1.0f);      // set clear depth value to farthest
       gl.glEnable(GL_DEPTH_TEST); // enables depth testing
-      gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do
-      //gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
+      gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do  
    }
  
    /**
@@ -137,7 +137,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
       // Setup perspective projection, with aspect ratio matches viewport
       gl.glMatrixMode(GL_PROJECTION);  // choose projection matrix
       gl.glLoadIdentity();             // reset projection matrix
-      glu.gluPerspective(fovy, aspect, 0.1, 50.0); // fovy, aspect, zNear, zFar
+      glu.gluPerspective(fovy, aspect, 0.1, 20.0); // fovy, aspect, zNear, zFar
       
       /*
       // Enable the model-view transform
@@ -179,7 +179,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
         gl.glLoadIdentity();
         
         glu.gluLookAt(2.0f, 2.0f, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-        gl.glTranslatef(this.despX,0.0f,this.despZ);
+        gl.glTranslatef(this.despX,this.despY,this.despZ);
         
         gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);
         gl.glBegin(GL2.GL_QUADS);
@@ -229,8 +229,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
             gl.glVertex3f(1.0f, 1.0f, -1.0f);
             gl.glVertex3f(0.0f, 1.0f, -1.0f);  
         gl.glEnd();         
-        
-        
+                
         
         this.rotacion+=5.0f;
         if (this.rotacion>360){
@@ -242,9 +241,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
             
         gl.glFlush();
             
-   }
-
-   
+   }   
 
    /**
     * Called back before the OpenGL context is destroyed. Release resource such as buffers.
@@ -275,6 +272,12 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
                  break;                 
             case KeyEvent.VK_UP:
                  this.despZ-=0.2f;
+                 break;
+            case KeyEvent.VK_PAGE_UP:
+                 this.despY+=0.2f;
+                 break;
+            case KeyEvent.VK_PAGE_DOWN:
+                 this.despY-=0.2f;
                  break;
             case KeyEvent.VK_R:
                  this.rotacion+=5.0f;
