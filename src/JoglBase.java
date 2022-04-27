@@ -28,16 +28,20 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
    private static final int CANVAS_HEIGHT = 480; // height of the drawable
    private static final int FPS = 24; // animator's target frames per second
    private static final float factInc = 5.0f; // animator's target frames per second
-   private float fovy = 45.0f;
+   private final float fovy = 45.0f;
    
-   private GLU glu;  // for the GL Utility
-   private GLUT glut;
+   private final GLU glu;  // for the GL Utility
+   private final GLUT glut;
    
    float rotacion=0.0f;
    float despl=0.0f;
    float despX=0.0f;
    float despY=0.0f;
    float despZ=0.0f;
+   
+   float camX=2.0f;
+   float camY=2.0f;
+   float camZ=8.0f;
     
    /** The entry main() method to setup the top-level container and animator */
    public static void main(String[] args) {
@@ -101,6 +105,9 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
    public JoglBase() {
       this.addGLEventListener(this);
       this.addKeyListener(this);
+      
+      glu = new GLU();                        // get GL Utilities
+      glut = new GLUT();
    }
  
    // ------ Implement methods declared in GLEventListener ------
@@ -111,9 +118,8 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
     */
    @Override
    public void init(GLAutoDrawable drawable) {
-      GL2 gl = drawable.getGL().getGL2();      // get the OpenGL graphics context
-      glu = new GLU();                        // get GL Utilities
-      glut = new GLUT();
+      GL2 gl = drawable.getGL().getGL2();     // get the OpenGL graphics context
+      
       gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
       gl.glClearDepth(1.0f);      // set clear depth value to farthest
       gl.glEnable(GL_DEPTH_TEST); // enables depth testing
@@ -137,13 +143,8 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
       // Setup perspective projection, with aspect ratio matches viewport
       gl.glMatrixMode(GL_PROJECTION);  // choose projection matrix
       gl.glLoadIdentity();             // reset projection matrix
-      glu.gluPerspective(fovy, aspect, 0.1, 20.0); // fovy, aspect, zNear, zFar
+      glu.gluPerspective(fovy, aspect, 0.1, 15.0); // fovy, aspect, zNear, zFar
       
-      /*
-      // Enable the model-view transform
-      gl.glMatrixMode(GL_MODELVIEW);
-      gl.glLoadIdentity(); // reset
-      */
    }
  
    /**
@@ -152,12 +153,13 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
    @Override
    public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();  // get the OpenGL 2 graphics context
+        
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
         
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         
-        glu.gluLookAt(2.0f, 2.0f, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
+        glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
         
         gl.glColor3f(0.0f,0.0f,1.0f);
         
@@ -178,7 +180,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
         
         gl.glLoadIdentity();
         
-        glu.gluLookAt(2.0f, 2.0f, 8.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
         gl.glTranslatef(this.despX,this.despY,this.despZ);
         
         gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);
@@ -236,7 +238,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
             this.rotacion = 0;
         }
         
-        System.out.printf("Rotacion %f \n", this.rotacion);
+        // System.out.printf("Rotacion %f \n", this.rotacion);
         
             
         gl.glFlush();
@@ -281,9 +283,29 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
                  break;
             case KeyEvent.VK_R:
                  this.rotacion+=5.0f;
+                 break;
+            case KeyEvent.VK_NUMPAD8:
+                 this.camY+=0.2f;
+                 break;
+            case KeyEvent.VK_NUMPAD2:
+                 this.camY-=0.2f;
+                 break;
+            case KeyEvent.VK_NUMPAD6:
+                 this.camX+=0.2f;
+                 break;
+            case KeyEvent.VK_NUMPAD4:
+                 this.camX-=0.2f;
                  break;                 
+            case KeyEvent.VK_PLUS:
+                 this.camZ+=0.2f;
+                 break;                 
+            case KeyEvent.VK_MINUS:
+                 this.camZ-=0.2f;
+                 break;   
+                 
         }
-        System.out.println("despX ="+this.despX+" - "+"despZ ="+this.despZ); 
+        System.out.println("despX ="+this.despX+" - "+"despY ="+this.despY+" - "+"despZ ="+this.despZ); 
+        System.out.println("camX ="+this.camX+" - "+"camY ="+this.camY+" - "+"despZ ="+this.despZ); 
     }
 
     @Override

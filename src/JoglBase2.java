@@ -32,7 +32,6 @@ public class JoglBase2 {
     private final int CANVAS_HEIGHT = 480; // height of the drawable
     private final int FPS = 24; // animator's target frames per second
 
-
     float rotacion = 0.0f;
     float despl = 0.0f;
     float despX = 0.0f;
@@ -42,6 +41,8 @@ public class JoglBase2 {
     GLCanvas canvas;
     Pintor pintor;
     FPSAnimator animator;
+    
+    MiKeyListener keylistener;
 
     JFrame frame;
     JPanel panel1;
@@ -68,11 +69,13 @@ public class JoglBase2 {
     public JoglBase2() {
         this.canvas = new GLCanvas();
         this.pintor = new Pintor(this);
+        
+        this.keylistener = new MiKeyListener(this);
 
         this.canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
-        
+
         this.canvas.addGLEventListener(pintor);
-        this.canvas.addKeyListener(pintor);
+        this.canvas.addKeyListener(keylistener);
 
         this.animator = new FPSAnimator(canvas, FPS, true);
 
@@ -116,7 +119,7 @@ public class JoglBase2 {
             }
         });
     }
-    
+
     void start() {
 
         frame.pack();
@@ -124,33 +127,34 @@ public class JoglBase2 {
         animator.start(); // start the animation loop
 
     }
-                  
+
 }
 
-class Pintor implements GLEventListener, KeyListener {
-    
+class Pintor implements GLEventListener {
+
     private final float factInc = 5.0f; // animator's target frames per second
     private float fovy = 45.0f;
-    
+
     JoglBase2 padre;
-    
-    private GLU glu;  // for the GL Utility
-    private GLUT glut;
+
+    private final GLU glu;  // for the GL Utility
+    private final GLUT glut;
 
     public Pintor(JoglBase2 p) {
         this.padre = p;
+        this.glu = new GLU();                        // get GL Utilities
+        this.glut = new GLUT();
     }
 
     @Override
     public void init(GLAutoDrawable glad) {
         GL2 gl = glad.getGL().getGL2();      // get the OpenGL graphics context
-        glu = new GLU();                        // get GL Utilities
-        glut = new GLUT();
+
         gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
         gl.glClearDepth(1.0f);      // set clear depth value to farthest
         gl.glEnable(GL_DEPTH_TEST); // enables depth testing
         gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do
-        //gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
+ 
     }
 
     @Override
@@ -271,6 +275,16 @@ class Pintor implements GLEventListener, KeyListener {
         glu.gluPerspective(fovy, aspect, 0.1, 10.0); // fovy, aspect, zNear, zFar
     }
 
+}
+
+class MiKeyListener implements KeyListener {
+
+    JoglBase2 padre;
+
+    MiKeyListener(JoglBase2 p) {
+        this.padre = p;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -295,14 +309,14 @@ class Pintor implements GLEventListener, KeyListener {
             case KeyEvent.VK_UP:
                 this.padre.despZ -= 0.2f;
                 break;
-                
+
             case KeyEvent.VK_PAGE_UP:
                 this.padre.despY += 0.2f;
                 break;
             case KeyEvent.VK_PAGE_DOWN:
                 this.padre.despY -= 0.2f;
                 break;
-                
+
             case KeyEvent.VK_R:
                 this.padre.rotacion += 5.0f;
                 break;
