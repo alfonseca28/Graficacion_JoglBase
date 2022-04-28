@@ -191,13 +191,13 @@ class Pintor implements GLEventListener {
 
         glu.gluLookAt(2.0f, 2.0f, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-        gl.glRotatef(this.padre.rotacion, 1.0f, 1.0f, 1.0f);
+        gl.glRotatef(this.padre.rotacion, 0.0f, 1.0f, 0.0f);
         gl.glTranslatef(this.padre.despX, this.padre.despY, this.padre.despZ);
 
         gl.glColor3f(1.0f, 0.0f, 0.0f);
 
-        glut.glutSolidTorus(0.5, 1, 20, 20);
-        /*
+        //glut.glutSolidTorus(0.5, 1, 20, 20);
+        
         
         gl.glBegin(GL2.GL_QUADS);            
             gl.glVertex3f(0.0f, 0.0f, 0.0f);            
@@ -245,7 +245,7 @@ class Pintor implements GLEventListener {
             gl.glVertex3f(1.0f, 1.0f, -1.0f);
             gl.glVertex3f(0.0f, 1.0f, -1.0f);  
         gl.glEnd();         
-         */
+        
         this.padre.rotacion += 5.0f;
         if (this.padre.rotacion > 360) {
             this.padre.rotacion = 0;
