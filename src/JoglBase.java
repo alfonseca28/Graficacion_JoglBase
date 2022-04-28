@@ -206,13 +206,15 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
 
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glTranslatef(this.despX, this.despY, this.despZ);
-        gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);              
+        
+        //gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);
+        
+        
        
         float puntosControl[] = {0.0f,0.0f,0.0f,
                                  2.0f,2.0f,0.0f,
                                  3.0f,2.0f,0.0f,
-                                 3.0f,0.0f,0.0f};
+                                 2.0f,2.0f,-1.0f};
         
         FloatBuffer fb = toFloatBuffer(puntosControl);               
         gl.glMap1f(GL_MAP1_VERTEX_3, 0.0f, 1.0f, 3, 4, fb);
@@ -225,26 +227,37 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
             gl.glEvalCoord1f((float) i /20.0f);
         }
         gl.glEnd();
-
-        //gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);
-        //gl.glTranslatef(this.despX,this.despY,this.despZ);                
-        /*
-        gl.glBegin(GL2.GL_TRIANGLES);
-            gl.glColor3f(1.0f,1.0f,0.0f);
-            gl.glVertex3f(2.0f, 2.0f, 0.0f);            
-            gl.glVertex3f(3.0f, 3.0f, 0.0f);
-            gl.glVertex3f(4.0f, 2.0f, 0.0f);                  
+        
+        
+        gl.glTranslatef(2.0f,2.0f,-1.0f);
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(0.0f, 1.0f, 0.0f);
+            
+            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, 0.0f);
+            gl.glVertex3f(0.0f, 1.0f, 0.0f);  
         gl.glEnd();
-         */
- /*
+        
+        // Cuadro inferior - base
         gl.glBegin(GL2.GL_QUADS);
             gl.glColor3f(1.0f, 0.0f, 0.0f);
+            
             gl.glVertex3f(0.0f, 0.0f, 0.0f);            
             gl.glVertex3f(1.0f, 0.0f, 0.0f);            
             gl.glVertex3f(1.0f, 0.0f, -1.0f);
             gl.glVertex3f(0.0f, 0.0f, -1.0f);  
         gl.glEnd();        
-                        
+        
+        // Cuadro superio - tapa       
+        gl.glBegin(GL2.GL_QUADS);
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            
+            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
+            gl.glVertex3f(1.0f, 1.0f, -1.0f);
+            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
+        gl.glEnd();  
 
         gl.glBegin(GL2.GL_QUADS);
             gl.glColor3f(0.0f, 1.0f, 0.0f);
@@ -253,7 +266,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
             gl.glVertex3f(1.0f, 1.0f, -1.0f);
             gl.glVertex3f(0.0f, 1.0f, -1.0f);  
         gl.glEnd();  
-
+                
         gl.glBegin(GL2.GL_QUADS);
             gl.glColor3f(0.0f, 0.0f, 1.0f);
             gl.glVertex3f(0.0f, 0.0f, 0.0f);            
@@ -270,12 +283,21 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
             gl.glVertex3f(1.0f, 0.0f, -1.0f);  
         gl.glEnd();     
         
-         */
- /*
+        
+        
+        /*
+            Dibujo de dos cuadros, uno rojo y otro verde      
+        */
+        
+        /*
+        gl.glLoadIdentity();
         gl.glTranslatef(1.0f,1.0f,0.0f);
+
+        gl.glTranslatef(this.despX, this.despY, this.despZ);        
         
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 1.0f, 0.0f);
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            
             gl.glVertex3f(0.0f, 0.0f, 0.0f);            
             gl.glVertex3f(1.0f, 0.0f, 0.0f);            
             gl.glVertex3f(1.0f, 1.0f, 0.0f);
@@ -284,25 +306,19 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
         
         gl.glLoadIdentity();
         gl.glTranslatef(-2.0f,1.0f,0.0f);
-
+        gl.glTranslatef(this.despX, this.despY, this.despZ);
+        
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1.0f, 1.0f, 0.0f);
+            gl.glColor3f(0.0f, 1.0f, 0.0f);
+            
             gl.glVertex3f(0.0f, 0.0f, 0.0f);            
             gl.glVertex3f(1.0f, 0.0f, 0.0f);            
             gl.glVertex3f(1.0f, 1.0f, 0.0f);
             gl.glVertex3f(0.0f, 1.0f, 0.0f);  
         gl.glEnd();
-         */
- /*
-        gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, -1.0f);
-            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
-        gl.glEnd();         
+        */
         
-         */
+ 
         this.rotacion += 5.0f;
         if (this.rotacion > 360) {
             this.rotacion = 0;
@@ -366,10 +382,10 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
             case KeyEvent.VK_NUMPAD4:
                 this.camX -= 0.2f;
                 break;
-            case KeyEvent.VK_PLUS:
+            case KeyEvent.VK_Z:
                 this.camZ += 0.2f;
                 break;
-            case KeyEvent.VK_MINUS:
+            case KeyEvent.VK_A:
                 this.camZ -= 0.2f;
                 break;
 
