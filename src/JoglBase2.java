@@ -9,7 +9,7 @@ import javax.swing.*;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -38,7 +38,7 @@ public class JoglBase2 {
     float despY = 0.0f;
     float despZ = 0.0f;
 
-    GLCanvas canvas;
+    GLJPanel canvas;
     Pintor pintor;
     FPSAnimator animator;
     
@@ -46,7 +46,7 @@ public class JoglBase2 {
 
     JFrame frame;
     JPanel panel1;
-    FlowLayout fl;
+    BorderLayout bl;
 
     /**
      * The entry main() method to setup the top-level container and animator
@@ -67,7 +67,7 @@ public class JoglBase2 {
      * Constructor to setup the GUI for this Component
      */
     public JoglBase2() {
-        this.canvas = new GLCanvas();
+        this.canvas = new GLJPanel();
         this.pintor = new Pintor(this);
         
         this.keylistener = new MiKeyListener(this);
@@ -80,15 +80,14 @@ public class JoglBase2 {
         this.animator = new FPSAnimator(canvas, FPS, true);
 
         // Create the top-level container
-        frame = new JFrame(); // Swing's JFrame or AWT's Frame
-        panel1 = new JPanel();
-
+        frame = new JFrame(); // Swing's JFrame or AWT's Frame        
         frame.setTitle(TITLE);
-        fl = new FlowLayout();
-        frame.setLayout(fl);
-
-        panel1.add(this.canvas);
-        frame.getContentPane().add(panel1);
+        
+        bl = new BorderLayout();
+        
+        frame.setLayout(bl);
+               
+        frame.getContentPane().add(canvas,BorderLayout.CENTER);
 
         frame.addComponentListener(new ComponentAdapter() {
             @Override
