@@ -5,6 +5,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
@@ -120,10 +121,15 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
    public void init(GLAutoDrawable drawable) {
       GL2 gl = drawable.getGL().getGL2();     // get the OpenGL graphics context
       
-      gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
+      gl.glClearColor(0.96f, 0.156f, 0.56f, 0.8f); // set background (clear) color
+      
+      
       gl.glClearDepth(1.0f);      // set clear depth value to farthest
       gl.glEnable(GL_DEPTH_TEST); // enables depth testing
       gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do  
+      
+      gl.glMatrixMode(GL_MODELVIEW);
+      gl.glLoadIdentity();  // reset the model-view matrix
    }
  
    /**
@@ -143,8 +149,9 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
       // Setup perspective projection, with aspect ratio matches viewport
       gl.glMatrixMode(GL_PROJECTION);  // choose projection matrix
       gl.glLoadIdentity();             // reset projection matrix
-      glu.gluPerspective(fovy, aspect, 0.1, 15.0); // fovy, aspect, zNear, zFar
+      glu.gluPerspective(fovy, aspect, 0.1, 20.0); // fovy, aspect, zNear, zFar
       
+      glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
    }
  
    /**
@@ -152,14 +159,12 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
     */
    @Override
    public void display(GLAutoDrawable drawable) {
-        GL2 gl = drawable.getGL().getGL2();  // get the OpenGL 2 graphics context
+        GL2 gl = drawable.getGL().getGL2();                
         
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
         
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-        
-        glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);  
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);                 
         
         gl.glColor3f(0.0f,0.0f,1.0f);
         
@@ -179,11 +184,10 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
         gl.glEnd();
         
         gl.glLoadIdentity();
-        
-        glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-        gl.glTranslatef(this.despX,this.despY,this.despZ);
-        
         gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);
+        gl.glTranslatef(this.despX,this.despY,this.despZ);        
+        
+                
         gl.glBegin(GL2.GL_QUADS);
             gl.glColor3f(1.0f, 0.0f, 0.0f);
             gl.glVertex3f(0.0f, 0.0f, 0.0f);            
@@ -231,8 +235,7 @@ public class JoglBase extends GLCanvas implements GLEventListener, KeyListener  
             gl.glVertex3f(1.0f, 1.0f, -1.0f);
             gl.glVertex3f(0.0f, 1.0f, -1.0f);  
         gl.glEnd();         
-                
-        
+                        
         this.rotacion+=5.0f;
         if (this.rotacion>360){
             this.rotacion = 0;
