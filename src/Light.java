@@ -44,22 +44,25 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
   float lightZ=1f;
   float dLight=0.05f;
 
-  // Material y luces.       R     G     B     A
+  // Material y luces.       R        G       B      A
   final float ambient[] = { 0.282f, 0.427f, 0.694f, 1.0f };
   final float position[] = { lightX, lightY, lightZ, 1.0f };
-  final float mat_diffuse[] = { 0.6f, 0.6f, 0.6f, 1.0f };
-  final float mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-  final float mat_shininess[] = { 50.0f };
 
-  final float[] colorBlack  = {0.0f,0.0f,0.0f,1.0f};
-  final float[] colorWhite  = {1.0f,1.0f,1.0f,1.0f};
-  final float[] colorGray   = {0.4f,0.4f,0.4f,1.0f};
-  final float[] colorDarkGray = {0.2f,0.2f,0.2f,1.0f};
-  final float[] colorRed    = {1.0f,0.0f,0.0f,1.0f};
-  final float[] colorGreen  = {0.0f,1.0f,0.0f,1.0f};
-  final float[] colorBlue   = {0.0f,0.0f,0.6f,1.0f};
-  final float[] colorYellow = {1.0f,1.0f,0.0f,1.0f};
+  //                                R    G    B    A
+  final float[] colorBlack      = {0.0f,0.0f,0.0f,1.0f};
+  final float[] colorWhite      = {1.0f,1.0f,1.0f,1.0f};
+  final float[] colorGray       = {0.4f,0.4f,0.4f,1.0f};
+  final float[] colorDarkGray   = {0.2f,0.2f,0.2f,1.0f};
+  final float[] colorRed        = {1.0f,0.0f,0.0f,1.0f};
+  final float[] colorGreen      = {0.0f,1.0f,0.0f,1.0f};
+  final float[] colorBlue       = {0.0f,0.0f,0.6f,1.0f};
+  final float[] colorYellow     = {1.0f,1.0f,0.0f,1.0f};
   final float[] colorLightYellow = {.5f,.5f,0.0f,1.0f};
+
+                          //       R     G     B     A          
+  final float mat_diffuse[]   = { 0.6f, 0.6f, 0.6f, 1.0f };
+  final float mat_specular[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
+  final float mat_shininess[] = { 50.0f };
 
 
   ///////////////// Funciones /////////////////////////
@@ -81,7 +84,8 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
       gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set background (clear) color
       gl.glClearDepth(1.0f);      // set clear depth value to farthest
       gl.glEnable(GL_DEPTH_TEST); // enables depth testing
-      gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do 
+      gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do
+      
       gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out lighting  
                   
       // Alguna luz de ambiente global.
@@ -250,7 +254,9 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
   public void drawTeaPotWithLight( GL2 gl, GLUT glut ) 
     {
       //gl.glRotatef(rotX,1.0f, 0.0f, 0.0f);
-      glut.glutSolidTeapot( 1.0f, true );
+      //glut.glutSolidTeapot( 1.0f, true );
+      
+      glut.glutSolidTorus(0.5, 1, 20, 20);
     }
 
     @Override
@@ -272,7 +278,8 @@ class Light extends GLCanvas implements GLEventListener, KeyListener {
         //this.drawTeaPotWithLight(gl, glut);
 
         gl.glTranslatef(0.0f,0.0f,-2.0f);
-        this.setSomeRedMaterial(gl,GL.GL_FRONT);
+        
+        this.setSomeGreenMaterial(gl,GL.GL_FRONT);
         this.drawTeaPotWithLight(gl, glut);
         
         

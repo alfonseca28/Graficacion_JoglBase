@@ -214,18 +214,21 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
         float puntosControl[] = {0.0f,0.0f,0.0f,
                                  2.0f,2.0f,0.0f,
                                  3.0f,2.0f,0.0f,
-                                 2.0f,2.0f,-1.0f};
+                                 4.0f,0.0f,0.0f,
+                                 5.0f,2.0f,0.0f
+                                };
         
-        FloatBuffer fb = toFloatBuffer(puntosControl);               
-        gl.glMap1f(GL_MAP1_VERTEX_3, 0.0f, 1.0f, 3, 4, fb);
-
+        FloatBuffer fb = toFloatBuffer(puntosControl);
+        
+        gl.glMap1f(GL_MAP1_VERTEX_3, 0.0f, 1.0f, 3, 5, fb);
         gl.glEnable(GL_MAP1_VERTEX_3);
         
+        
         gl.glBegin(GL_LINE_STRIP);
-        gl.glColor3f(1.0f,0.0f,0.0f);
-        for (int i = 0; i <= 20; i++) {
-            gl.glEvalCoord1f((float) i /20.0f);
-        }
+            gl.glColor3f(1.0f,0.0f,0.0f);
+            for (int i = 0; i < puntosControl.length; i++) {
+                gl.glEvalCoord1f((float) i /(puntosControl.length));
+            }
         gl.glEnd();
         
         
