@@ -207,9 +207,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();
         
-        //gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);
-        
-        
+        //gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);                
        
         float puntosControl[] = {0.0f,0.0f,0.0f,
                                  2.0f,2.0f,0.0f,
@@ -222,8 +220,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
         
         gl.glMap1f(GL_MAP1_VERTEX_3, 0.0f, 1.0f, 3, 5, fb);
         gl.glEnable(GL_MAP1_VERTEX_3);
-        
-        
+                
         gl.glBegin(GL_LINE_STRIP);
             gl.glColor3f(1.0f,0.0f,0.0f);
             for (int i = 0; i < puntosControl.length; i++) {
