@@ -110,7 +110,7 @@ public class TJOGL2 extends GLCanvas implements GLEventListener, KeyListener {
       });
    }
    
-   Texture loadTexture(String imageFile){
+   Texture cargarTextura(String imageFile){
        Texture text1 = null;
        try {
             BufferedImage buffImage = ImageIO.read(new File(imageFile));           
@@ -163,14 +163,14 @@ public class TJOGL2 extends GLCanvas implements GLEventListener, KeyListener {
       gl.glEnable(GL2.GL_LIGHTING);      
       gl.glEnable(GL2.GL_LIGHT0);
       
-      this.textura1 = this.loadTexture("imagenes/Chivas-1.jpg");
+      this.textura1 = this.cargarTextura("imagenes/manodigital.jpg");
       
       // Habilitar el uso de texturas
       gl.glEnable(GL2.GL_TEXTURE_2D);
       gl.glEnable(GL2.GL_BLEND);
 
       // Especificar la funcion de mezcla "adherencia" de textura
-      gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ONE_MINUS_SRC_ALPHA);       
+      gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ZERO);       
    }
  
    /**
@@ -214,7 +214,7 @@ public class TJOGL2 extends GLCanvas implements GLEventListener, KeyListener {
         gl.glEnable(GL.GL_LINE_SMOOTH);
         gl.glEnable(GL.GL_BLEND);
 
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+
         gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
 
         glu.gluLookAt(0.0, 0.0, 5.0, this.posCamX, this.posCamY, this.posCamZ, 0.0, 1.0, 0.0);
@@ -258,14 +258,13 @@ public class TJOGL2 extends GLCanvas implements GLEventListener, KeyListener {
         // Asociar la textura con el canvas
         this.textura1.bind(gl);
         this.textura1.enable(gl); 
-        
-        
+                
         glut.glutSolidTeapot(1);
         
         this.textura1.disable(gl);
         
         //glut.glutSolidSphere(1, 50, 50);
-        gl.glTranslatef(2.0f, 0.0f, 0.0f);
+        //gl.glTranslatef(2.0f, 0.0f, 0.0f);
         //this.drawCube(gl);
         //this.drawCubeUVWmapped(gl);
         
