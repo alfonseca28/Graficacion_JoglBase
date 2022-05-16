@@ -41,7 +41,7 @@ public class JoglBase2 {
     GLJPanel canvas;
     Pintor pintor;
     FPSAnimator animator;
-    
+
     MiKeyListener keylistener;
 
     JFrame frame;
@@ -69,7 +69,7 @@ public class JoglBase2 {
     public JoglBase2() {
         this.canvas = new GLJPanel();
         this.pintor = new Pintor(this);
-        
+
         this.keylistener = new MiKeyListener(this);
 
         this.canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
@@ -82,12 +82,12 @@ public class JoglBase2 {
         // Create the top-level container
         frame = new JFrame(); // Swing's JFrame or AWT's Frame        
         frame.setTitle(TITLE);
-        
+
         bl = new BorderLayout();
-        
+
         frame.setLayout(bl);
-               
-        frame.getContentPane().add(canvas,BorderLayout.CENTER);
+
+        frame.getContentPane().add(canvas, BorderLayout.CENTER);
 
         frame.addComponentListener(new ComponentAdapter() {
             @Override
@@ -153,7 +153,7 @@ class Pintor implements GLEventListener {
         gl.glClearDepth(1.0f);      // set clear depth value to farthest
         gl.glEnable(GL_DEPTH_TEST); // enables depth testing
         gl.glDepthFunc(GL_LEQUAL);  // the type of depth test to do
- 
+
     }
 
     @Override
@@ -197,55 +197,53 @@ class Pintor implements GLEventListener {
         gl.glColor3f(1.0f, 0.0f, 0.0f);
 
         //glut.glutSolidTorus(0.5, 1, 20, 20);
-        
-        
-        gl.glBegin(GL2.GL_QUADS);            
-            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 0.0f, -1.0f);
-            gl.glVertex3f(0.0f, 0.0f, -1.0f);  
-        gl.glEnd();        
-
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 1.0f, 0.0f);
-            gl.glVertex3f(0.0f, 0.0f, -1.0f);            
-            gl.glVertex3f(1.0f, 0.0f, -1.0f);            
-            gl.glVertex3f(1.0f, 1.0f, -1.0f);
-            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
-        gl.glEnd();  
-
-        gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 0.0f, 1.0f);
-            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(0.0f, 1.0f, -1.0f);
-            gl.glVertex3f(0.0f, 0.0f, -1.0f);  
+        gl.glVertex3f(0.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 0.0f, -1.0f);
+        gl.glVertex3f(0.0f, 0.0f, -1.0f);
         gl.glEnd();
 
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 0.0f, 1.0f);
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, -1.0f);
-            gl.glVertex3f(1.0f, 0.0f, -1.0f);  
-        gl.glEnd();     
-        
+        gl.glColor3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 0.0f, -1.0f);
+        gl.glVertex3f(1.0f, 0.0f, -1.0f);
+        gl.glVertex3f(1.0f, 1.0f, -1.0f);
+        gl.glVertex3f(0.0f, 1.0f, -1.0f);
+        gl.glEnd();
+
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 1.0f, 0.0f);
-            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);  
-        gl.glEnd(); 
-        
+        gl.glColor3f(0.0f, 0.0f, 1.0f);
+        gl.glVertex3f(0.0f, 0.0f, 0.0f);
+        gl.glVertex3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 1.0f, -1.0f);
+        gl.glVertex3f(0.0f, 0.0f, -1.0f);
+        gl.glEnd();
+
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, -1.0f);
-            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
-        gl.glEnd();         
-        
+        gl.glColor3f(0.0f, 0.0f, 1.0f);
+        gl.glVertex3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, -1.0f);
+        gl.glVertex3f(1.0f, 0.0f, -1.0f);
+        gl.glEnd();
+
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 1.0f, 0.0f);
+        gl.glEnd();
+
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, -1.0f);
+        gl.glVertex3f(0.0f, 1.0f, -1.0f);
+        gl.glEnd();
+
         this.padre.rotacion += 5.0f;
         if (this.padre.rotacion > 360) {
             this.padre.rotacion = 0;

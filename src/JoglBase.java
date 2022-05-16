@@ -41,7 +41,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
 
     private final GLU glu;  // for the GL Utility
     private final GLUT glut;
-    
+
     float aspect = 0.0f;
 
     float rotacion = 0.0f;
@@ -71,11 +71,10 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
 
                 // Create the top-level container
                 final JFrame frame = new JFrame(); // Swing's JFrame or AWT's Frame
-                
+
                 BorderLayout bl = new BorderLayout();
-                
-                
-                frame.getContentPane().add(canvas,BorderLayout.CENTER);
+
+                frame.getContentPane().add(canvas, BorderLayout.CENTER);
 
                 frame.addKeyListener((KeyListener) canvas);
 
@@ -100,7 +99,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
                     public void componentResized(ComponentEvent ev) {
                         Component c = (Component) ev.getSource();
                         // Get new size
-                        Dimension newSize = c.getSize();                        
+                        Dimension newSize = c.getSize();
                         canvas.setSize(newSize);
                     }
                 });
@@ -126,8 +125,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
 
     // ------ Implement methods declared in GLEventListener ------
     /**
-     * Called back immediately after the OpenGL context is initialized. Can be
-     * used to perform one-time initialization. Run only once.
+     * Called back immediately after the OpenGL context is initialized. Can be used to perform one-time initialization. Run only once.
      */
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -141,12 +139,11 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
 
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix
-                
+
     }
 
     /**
-     * Call-back handler for window re-size event. Also called when the drawable
-     * is first set to visible.
+     * Call-back handler for window re-size event. Also called when the drawable is first set to visible.
      */
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -155,7 +152,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
         if (height == 0) {
             height = 1;   // prevent divide by zero
         }
-        
+
         this.aspect = (float) width / height;
 
         // Set the view port (display area) to cover the entire window
@@ -166,7 +163,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
         gl.glLoadIdentity();             // reset projection matrix
         glu.gluPerspective(fovy, aspect, 0.1, 20.0); // fovy, aspect, zNear, zFar
         glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-       
+
     }
 
     /**
@@ -175,16 +172,16 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
     @Override
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
-        
+
         gl.glMatrixMode(GL_PROJECTION);  // choose projection matrix
         gl.glLoadIdentity();
-        glu.gluPerspective(fovy, aspect, 0.1, 20.0); 
-        glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);        
+        glu.gluPerspective(fovy, aspect, 0.1, 20.0);
+        glu.gluLookAt(this.camX, this.camY, this.camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();  // reset the model-view matrix                    
 
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);               
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         gl.glColor3f(0.0f, 0.0f, 1.0f);
 
@@ -202,94 +199,88 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
         gl.glVertex3f(0.0f, 0.0f, -100.0f);
         gl.glVertex3f(0.0f, 0.0f, 100.0f);
         gl.glEnd();
-                
 
         gl.glMatrixMode(GL_MODELVIEW);
         gl.glLoadIdentity();
-        
+
         //gl.glRotatef(this.rotacion, 0.0f, 1.0f, 0.0f);                
-       
-        float puntosControl[] = {0.0f,0.0f,0.0f,
-                                 2.0f,2.0f,0.0f,
-                                 3.0f,2.0f,0.0f,
-                                 4.0f,0.0f,0.0f,
-                                 5.0f,2.0f,0.0f
-                                };
-        
+        float puntosControl[] = {0.0f, 0.0f, 0.0f,
+            2.0f, 2.0f, 0.0f,
+            3.0f, 2.0f, 0.0f,
+            4.0f, 0.0f, 0.0f,
+            5.0f, 2.0f, 0.0f
+        };
+
         FloatBuffer fb = toFloatBuffer(puntosControl);
-        
+
         gl.glMap1f(GL_MAP1_VERTEX_3, 0.0f, 1.0f, 3, 5, fb);
         gl.glEnable(GL_MAP1_VERTEX_3);
-                
+
         gl.glBegin(GL_LINE_STRIP);
-            gl.glColor3f(1.0f,0.0f,0.0f);
-            for (int i = 0; i < puntosControl.length; i++) {
-                gl.glEvalCoord1f((float) i /(puntosControl.length));
-            }
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        for (int i = 0; i < puntosControl.length; i++) {
+            gl.glEvalCoord1f((float) i / (puntosControl.length));
+        }
         gl.glEnd();
-        
-        
-        gl.glTranslatef(2.0f,2.0f,-1.0f);
+
+        gl.glTranslatef(2.0f, 2.0f, -1.0f);
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 1.0f, 0.0f);
-            
-            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);  
+        gl.glColor3f(0.0f, 1.0f, 0.0f);
+
+        gl.glVertex3f(0.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 1.0f, 0.0f);
         gl.glEnd();
-        
+
         // Cuadro inferior - base
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
-            
-            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 0.0f, -1.0f);
-            gl.glVertex3f(0.0f, 0.0f, -1.0f);  
-        gl.glEnd();        
-        
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+
+        gl.glVertex3f(0.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 0.0f, -1.0f);
+        gl.glVertex3f(0.0f, 0.0f, -1.0f);
+        gl.glEnd();
+
         // Cuadro superio - tapa       
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
-            
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, -1.0f);
-            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
-        gl.glEnd();  
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
 
-        gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 1.0f, 0.0f);
-            gl.glVertex3f(0.0f, 0.0f, -1.0f);            
-            gl.glVertex3f(1.0f, 0.0f, -1.0f);            
-            gl.glVertex3f(1.0f, 1.0f, -1.0f);
-            gl.glVertex3f(0.0f, 1.0f, -1.0f);  
-        gl.glEnd();  
-                
-        gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 0.0f, 1.0f);
-            gl.glVertex3f(0.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(0.0f, 1.0f, -1.0f);
-            gl.glVertex3f(0.0f, 0.0f, -1.0f);  
+        gl.glVertex3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, -1.0f);
+        gl.glVertex3f(0.0f, 1.0f, -1.0f);
         gl.glEnd();
 
         gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(0.0f, 0.0f, 1.0f);
-            gl.glVertex3f(1.0f, 0.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, 0.0f);            
-            gl.glVertex3f(1.0f, 1.0f, -1.0f);
-            gl.glVertex3f(1.0f, 0.0f, -1.0f);  
-        gl.glEnd();     
-        
-        
-        
+        gl.glColor3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 0.0f, -1.0f);
+        gl.glVertex3f(1.0f, 0.0f, -1.0f);
+        gl.glVertex3f(1.0f, 1.0f, -1.0f);
+        gl.glVertex3f(0.0f, 1.0f, -1.0f);
+        gl.glEnd();
+
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor3f(0.0f, 0.0f, 1.0f);
+        gl.glVertex3f(0.0f, 0.0f, 0.0f);
+        gl.glVertex3f(0.0f, 1.0f, 0.0f);
+        gl.glVertex3f(0.0f, 1.0f, -1.0f);
+        gl.glVertex3f(0.0f, 0.0f, -1.0f);
+        gl.glEnd();
+
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor3f(0.0f, 0.0f, 1.0f);
+        gl.glVertex3f(1.0f, 0.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, -1.0f);
+        gl.glVertex3f(1.0f, 0.0f, -1.0f);
+        gl.glEnd();
+
         /*
             Dibujo de dos cuadros, uno rojo y otro verde      
-        */
-        
-        /*
+         */
+ /*
         gl.glLoadIdentity();
         gl.glTranslatef(1.0f,1.0f,0.0f);
 
@@ -316,9 +307,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
             gl.glVertex3f(1.0f, 1.0f, 0.0f);
             gl.glVertex3f(0.0f, 1.0f, 0.0f);  
         gl.glEnd();
-        */
-        
- 
+         */
         this.rotacion += 5.0f;
         if (this.rotacion > 360) {
             this.rotacion = 0;
@@ -330,8 +319,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
     }
 
     /**
-     * Called back before the OpenGL context is destroyed. Release resource such
-     * as buffers.
+     * Called back before the OpenGL context is destroyed. Release resource such as buffers.
      */
     @Override
     public void dispose(GLAutoDrawable drawable) {
@@ -396,7 +384,7 @@ public class JoglBase extends GLJPanel implements GLEventListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-            
+
     }
 
     public static FloatBuffer toFloatBuffer(float[] v) {

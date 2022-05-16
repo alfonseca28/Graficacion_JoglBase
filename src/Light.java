@@ -243,7 +243,7 @@ class Light extends GLJPanel implements GLEventListener, KeyListener {
         this.setSomeRedMaterial(gl, GL.GL_FRONT);
         gl.glTranslatef(2.0f, 1.0f, -1.0f);
         //glut.glutSolidTorus(0.5, 1, 20, 20);
-        
+
         glut.glutSolidOctahedron();
 
         /*
@@ -259,7 +259,7 @@ class Light extends GLJPanel implements GLEventListener, KeyListener {
                 glut.glutStrokeCharacter(GLUT.STROKE_ROMAN, c);
             }
         } 
-        */
+         */
     }
 
     @Override
@@ -333,7 +333,7 @@ class Light extends GLJPanel implements GLEventListener, KeyListener {
 
                 FlowLayout fl = new FlowLayout();
                 frame.setLayout(fl);
-                
+
                 frame.getContentPane().add(canvas);
 
                 frame.addKeyListener((KeyListener) canvas);
